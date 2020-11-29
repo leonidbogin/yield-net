@@ -1,12 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace yield
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            foreach (var number in GetPrimeNumbers().Take(100))
+            {
+                Console.Write(number + " ");
+            }
+
+            Console.ReadLine();
+        }
+
+        private static IEnumerable<int> GetPrimeNumbers()
+        {
+            for (var i = 0; ; i++)
+            {
+                if (IsPrime(i)) yield return i;
+            }
+        }
+
+        private static bool IsPrime(int number)
+        {
+            if (number <= 1) return false;
+            if (number == 2) return true;
+            if (number % 2 == 0) return false;
+
+            var boundary = (int)Math.Floor(Math.Sqrt(number));
+
+            for (var i = 3; i <= boundary; i += 2)
+                if (number % i == 0)
+                    return false;
+
+            return true;
         }
     }
 }
